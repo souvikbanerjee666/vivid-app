@@ -1,10 +1,10 @@
+import { password } from "bun"
 import mongoose from "mongoose"
 
 
 const userSchema = mongoose.Schema({
     fullName: {
         type: String,
-        unique: true,
         required: true
     },
       username: {
@@ -15,6 +15,10 @@ const userSchema = mongoose.Schema({
       email:{
         type: String,
         unique: true,
+        required: true
+      },
+      password:{
+        type: String,
         required: true
       }
 },
