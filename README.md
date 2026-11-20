@@ -1,98 +1,74 @@
 # Vivid App
 
-A YouTube-like video platform. Express + MongoDB backend, React frontend.
+A full stack video sharing app I built to learn how backend and frontend work together. Think YouTube but way simpler. You can upload videos, like, comment, subscribe to channels, create playlists, post tweets and more.
+
+**Live:** https://vividapp666.netlify.app  
+**Backend:** https://vivid-app.onrender.com
 
 ---
 
-## Local Setup
+## Tech Stack
+
+- **Frontend** — React, React Router, Axios
+- **Backend** — Node.js, Express
+- **Database** — MongoDB Atlas + Mongoose
+- **File Storage** — Cloudinary (videos + images)
+- **Hosting** — Render (backend), Netlify (frontend)
+
+---
+
+## Features
+
+- Register / Login / Logout
+- Upload videos with thumbnail
+- Like videos, comments and tweets
+- Comment on videos
+- Subscribe to channels
+- Create and manage playlists
+- Post tweets
+- Watch history
+- Channel pages
+- Dashboard with stats (views, likes, subscribers)
+
+---
+
+## Running locally
 
 ### Backend
 ```bash
 cd backend
-cp .env.example .env      # fill in your values
 npm install
-npm run dev               # runs on http://localhost:8000
+# create a .env file and fill in the values (see below)
+npm run dev
 ```
 
 ### Frontend
 ```bash
 cd frontend
-cp .env.example .env      # set VITE_API_BASE_URL
 npm install
-npm run dev               # runs on http://localhost:5173
+# create a .env file with VITE_API_BASE_URL=http://localhost:8000/api/v1
+npm run dev
 ```
 
 ---
 
-## Required Services (all free tier)
+## Env variables
 
-| Service | Purpose | Link |
-|---|---|---|
-| MongoDB Atlas | Database | https://cloud.mongodb.com |
-| Cloudinary | Video & image storage | https://cloudinary.com |
-| Render | Backend hosting | https://render.com |
-| Netlify | Frontend hosting | https://netlify.com |
-
----
-
-## Deployment
-
-### 1. MongoDB Atlas
-1. Create a free M0 cluster
-2. Add a database user (username + password)
-3. Whitelist `0.0.0.0/0` under Network Access
-4. Copy the connection string → paste into `MONGODB_URI` in your backend env
-
-### 2. Cloudinary
-1. Sign up for free
-2. Copy Cloud Name, API Key, API Secret from the dashboard
-3. Paste into backend env vars
-
-### 3. Backend → Render (free tier)
-1. Push your code to GitHub
-2. Go to https://render.com → New → Web Service
-3. Connect your repo, set root directory to `backend`
-4. Build command: `npm install`
-5. Start command: `npm start`
-6. Add all env vars from `.env.example` under Environment
-7. Copy the deployed URL (e.g. `https://vivid-api.onrender.com`)
-
-### 4. Frontend → Netlify (free tier)
-1. Go to https://netlify.com → Add new site → Import from Git
-2. Set base directory to `frontend`
-3. Build command: `npm run build`
-4. Publish directory: `frontend/dist`
-5. Under Site Settings → Environment Variables, add:
-   ```
-   VITE_API_BASE_URL=https://vivid-api.onrender.com/api/v1
-   ```
-6. Deploy — the `public/_redirects` file handles React Router refresh
-
-### 5. Update CORS
-Once frontend is deployed, go back to Render and update:
+### Backend `.env`
 ```
-CORS_ORIGIN=https://your-site.netlify.app
+PORT=8000
+MONGODB_URI=your_mongodb_atlas_uri
+CORS_ORIGIN=http://localhost:5173
+ACCESS_TOKEN_SECRET=your_secret
+ACCESS_TOKEN_EXPIRY=1d
+REFRESH_TOKEN_SECRET=your_secret
+REFRESH_TOKEN_EXPIRY=10d
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
 ```
 
----
-
-## Env Variables Reference
-
-### Backend
-| Variable | Description |
-|---|---|
-| `PORT` | Server port (Render sets this automatically) |
-| `MONGODB_URI` | MongoDB Atlas connection string |
-| `CORS_ORIGIN` | Frontend URL (Netlify URL in production) |
-| `ACCESS_TOKEN_SECRET` | Strong random string for JWT |
-| `ACCESS_TOKEN_EXPIRY` | e.g. `1d` |
-| `REFRESH_TOKEN_SECRET` | Strong random string for refresh JWT |
-| `REFRESH_TOKEN_EXPIRY` | e.g. `10d` |
-| `CLOUDINARY_CLOUD_NAME` | From Cloudinary dashboard |
-| `CLOUDINARY_API_KEY` | From Cloudinary dashboard |
-| `CLOUDINARY_API_SECRET` | From Cloudinary dashboard |
-
-### Frontend
-| Variable | Description |
-|---|---|
-| `VITE_API_BASE_URL` | Backend API URL |
+### Frontend `.env`
+```
+VITE_API_BASE_URL=http://localhost:8000/api/v1
+```
