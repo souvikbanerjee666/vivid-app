@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { authAPI } from "../services/api";
+import { authAPI, setAuthToken } from "../services/api";
 
 const AuthContext = createContext(null);
 
@@ -8,19 +8,26 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (token) setAuthToken(token);
     authAPI.getCurrentUser()
       .then((res) => setUser(res.data.data))
-      .catch(() => setUser(null))
+      .catch(() => { setUser(null); localStorage.removeItem("accessToken"); })
       .finally(() => setLoading(false));
   }, []);
 
   const login = async (data) => {
     const res = await authAPI.login(data);
-    setUser(res.data.data.user);
+    const { user, accessToken } = res.data.data;
+    localStorage.setItem("accessToken", accessToken);
+    setAuthToken(accessToken);
+    setUser(user);
   };
 
   const logout = async () => {
     await authAPI.logout();
+    localStorage.removeItem("accessToken");
+    setAuthToken(null);
     setUser(null);
   };
 
