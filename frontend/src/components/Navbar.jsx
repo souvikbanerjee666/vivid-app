@@ -17,6 +17,7 @@ export default function Navbar() {
         {user ? (
           <>
             <Link to="/upload" className="btn-primary">+ Upload</Link>
+            <Link to="/tweets" className="btn-outline">Tweets</Link>
             <Link to="/profile" className="nav-avatar-link">
               <img src={user.avatar} alt={user.username} className="nav-avatar" />
             </Link>

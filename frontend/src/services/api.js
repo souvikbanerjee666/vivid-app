@@ -47,4 +47,12 @@ export const subscriptionAPI = {
   getSubscribed: (subscriberId) => api.get(`/subscriptions/u/${subscriberId}`),
 };
 
+export const tweetAPI = {
+  create: (content) => api.post("/tweets", { content }),
+  getUserTweets: (userId) => api.get(`/tweets/user/${userId}`),
+  update: (tweetId, content) => api.patch(`/tweets/${tweetId}`, { content }),
+  delete: (tweetId) => api.delete(`/tweets/${tweetId}`),
+  toggleLike: (tweetId) => api.post(`/likes/toggle/t/${tweetId}`),
+};
+
 export default api;

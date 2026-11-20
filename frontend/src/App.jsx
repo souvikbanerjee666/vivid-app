@@ -7,6 +7,7 @@ import Register from "./pages/Register";
 import VideoPlayer from "./pages/VideoPlayer";
 import UploadVideo from "./pages/UploadVideo";
 import Profile from "./pages/Profile";
+import Tweets from "./pages/Tweets";
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
@@ -23,6 +24,7 @@ function AppRoutes() {
         <Route path="/video/:videoId" element={<ProtectedRoute><VideoPlayer /></ProtectedRoute>} />
         <Route path="/upload" element={<ProtectedRoute><UploadVideo /></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+        <Route path="/tweets" element={<ProtectedRoute><Tweets /></ProtectedRoute>} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
