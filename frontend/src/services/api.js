@@ -55,4 +55,23 @@ export const tweetAPI = {
   toggleLike: (tweetId) => api.post(`/likes/toggle/t/${tweetId}`),
 };
 
+export const playlistAPI = {
+  create: (data) => api.post("/playlist", data),
+  getUserPlaylists: (userId) => api.get(`/playlist/user/${userId}`),
+  getById: (playlistId) => api.get(`/playlist/${playlistId}`),
+  update: (playlistId, data) => api.patch(`/playlist/${playlistId}`, data),
+  delete: (playlistId) => api.delete(`/playlist/${playlistId}`),
+  addVideo: (videoId, playlistId) => api.patch(`/playlist/add/${videoId}/${playlistId}`),
+  removeVideo: (videoId, playlistId) => api.patch(`/playlist/remove/${videoId}/${playlistId}`),
+};
+
+export const dashboardAPI = {
+  getStats: () => api.get("/dashboard/stats"),
+  getVideos: () => api.get("/dashboard/videos"),
+};
+
+export const watchHistoryAPI = {
+  get: () => api.get("/users/history"),
+};
+
 export default api;

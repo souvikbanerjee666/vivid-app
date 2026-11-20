@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { videoAPI, likeAPI, commentAPI, subscriptionAPI } from "../services/api";
+import { useParams, Link } from "react-router-dom";
+import { videoAPI, likeAPI, commentAPI, subscriptionAPI, playlistAPI } from "../services/api";
 import { useAuth } from "../context/AuthContext";
 
 export default function VideoPlayer() {
@@ -15,6 +15,8 @@ export default function VideoPlayer() {
   const [comments, setComments] = useState([]);
   const [commentText, setCommentText] = useState("");
   const [commentLoading, setCommentLoading] = useState(false);
+  const [playlists, setPlaylists] = useState([]);
+  const [showPlaylists, setShowPlaylists] = useState(false);
 
   useEffect(() => {
     videoAPI.getById(videoId)
@@ -28,7 +30,16 @@ export default function VideoPlayer() {
     commentAPI.getComments(videoId)
       .then((res) => setComments(res.data.data.docs || []))
       .catch(() => {});
+
+    playlistAPI.getUserPlaylists(user._id)
+      .then((res) => setPlaylists(res.data.data || []))
+      .catch(() => {});
   }, [videoId]);
+
+  const handleAddToPlaylist = async (playlistId) => {
+    await playlistAPI.addVideo(videoId, playlistId);
+    setShowPlaylists(false);
+  };
 
   const handleLike = async () => {
     const res = await likeAPI.toggleVideoLike(videoId);
@@ -77,12 +88,23 @@ export default function VideoPlayer() {
           <button onClick={handleLike} className={`btn-like ${liked ? "liked" : ""}`}>
             👍 {likesCount}
           </button>
+          <div className="playlist-save-wrap">
+            <button onClick={() => setShowPlaylists(!showPlaylists)} className="btn-outline">+ Playlist</button>
+            {showPlaylists && (
+              <div className="playlist-dropdown">
+                {playlists.length === 0 ? <p>No playlists. <Link to="/playlists">Create one</Link></p> :
+                  playlists.map((p) => (
+                    <button key={p._id} onClick={() => handleAddToPlaylist(p._id)}>{p.name}</button>
+                  ))}
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="owner-row">
           <img src={video.owner?.avatar} alt={video.owner?.username} className="owner-avatar-lg" />
           <div className="owner-info">
-            <p className="owner-name">{video.owner?.fullName}</p>
+            <Link to={`/channel/${video.owner?.username}`} className="owner-name">{video.owner?.fullName}</Link>
             <p className="owner-handle">@{video.owner?.username}</p>
           </div>
           {user._id !== video.owner?._id && (

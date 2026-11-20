@@ -12,10 +12,14 @@ export default function VideoCard({ video }) {
         {duration && <span className="duration">{duration}</span>}
       </div>
       <div className="video-info">
-        <img src={video.owner?.avatar} alt={video.owner?.username} className="owner-avatar" />
+        <Link to={`/channel/${video.owner?.username}`} onClick={(e) => e.stopPropagation()}>
+          <img src={video.owner?.avatar} alt={video.owner?.username} className="owner-avatar" />
+        </Link>
         <div>
           <p className="video-title">{video.title}</p>
-          <p className="video-meta">{video.owner?.fullName}</p>
+          <Link to={`/channel/${video.owner?.username}`} className="video-meta" onClick={(e) => e.stopPropagation()}>
+            {video.owner?.fullName}
+          </Link>
           <p className="video-meta">{video.views?.toLocaleString()} views</p>
         </div>
       </div>
