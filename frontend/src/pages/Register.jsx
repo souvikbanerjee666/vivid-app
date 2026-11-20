@@ -41,7 +41,7 @@ export default function Register() {
         <input type="password" placeholder="Password" value={form.password} onChange={set("password")} required />
         <label className="file-label">
           Avatar <span className="required">*</span>
-          <input type="file" accept="image/*,image/heic,image/heif,.heic,.heif" onChange={(e) => setAvatar(e.target.files[0])} required />
+          <input type="file" accept="image/*" onChange={(e) => setAvatar(e.target.files[0])} required />
         </label>
         <label className="file-label">
           Cover Image <span className="optional">(optional)</span>

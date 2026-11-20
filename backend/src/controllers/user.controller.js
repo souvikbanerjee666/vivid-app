@@ -25,8 +25,16 @@ const generateAccessAndRefereshTokens = async(userId) =>{
 }
 
 const registerUser = asyncHandler( async (req, res) => {
-    console.log("FILES:", req.files)
-    console.log("BODY:", req.body)
+    // get user details from frontend
+    // validation - not empty
+    // check if user already exists: username, email
+    // check for images, check for avatar
+    // upload them to cloudinary, avatar
+    // create user object - create entry in db
+    // remove password and refresh token field from response
+    // check for user creation
+    // return res
+
 
     const {fullName, username, password } = req.body
     const email = req.body.email?.toLowerCase().trim()
@@ -48,7 +56,7 @@ const registerUser = asyncHandler( async (req, res) => {
     //console.log(req.files);
 
     const avatarLocalPath = req.files?.avatar[0]?.path;
-    console.log("AVATAR PATH:", avatarLocalPath)
+    //const coverImageLocalPath = req.files?.coverImage[0]?.path;
 
     let coverImageLocalPath;
     if (req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) {
@@ -61,7 +69,6 @@ const registerUser = asyncHandler( async (req, res) => {
     }
 
     const avatar = await uploadOnCloudinary(avatarLocalPath)
-    console.log("CLOUDINARY AVATAR:", avatar)
     const coverImage = await uploadOnCloudinary(coverImageLocalPath)
 
     if (!avatar) {
