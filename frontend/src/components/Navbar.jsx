@@ -16,7 +16,10 @@ export default function Navbar() {
       <div className="nav-links">
         {user ? (
           <>
-            <span className="nav-user">Hey, {user.fullName.split(" ")[0]}</span>
+            <Link to="/upload" className="btn-primary">+ Upload</Link>
+            <Link to="/profile" className="nav-avatar-link">
+              <img src={user.avatar} alt={user.username} className="nav-avatar" />
+            </Link>
             <button onClick={handleLogout} className="btn-outline">Logout</button>
           </>
         ) : (
